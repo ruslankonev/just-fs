@@ -1,6 +1,6 @@
 {
   "name": "just-fs",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "description": "File-system based JSON database",
   "main": "dist/fs-db.js",
   "scripts": {

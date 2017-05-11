@@ -35,7 +35,7 @@ class DB extends EventEmitter {
     this.DB = {}
     this.pagedDB = {}
     this.opts = {
-      path: path.resolve(process.cwd(), 'stores')
+      path: path.resolve(process.cwd(), 'stores'),
       perPage: 12,
       schemaFile: '_schemas.js'
     }

@@ -21,6 +21,7 @@ const EventEmitter = require('events')
 const uuid = require('uuid')
 const _ = require('lodash')
 const fs = require('fs')
+const path = require('path')
 
 
 /*************************************************
@@ -33,18 +34,19 @@ class DB extends EventEmitter {
     super()
     this.DB = {}
     this.pagedDB = {}
-    this.Schemas = require(App.schemaUrl)
     this.opts = {
-      path: App.dbPath,
+      path: path.resolve(process.cwd(), 'stores')
       perPage: 12,
+      schemaFile: '_schemas.js'
     }
+    this.Schemas = {}
     this.collection = []
     this.on('error', err => console.error(err))
   }
 
   connect(opts){
     this.opts = Object.assign(this.opts, opts)
-
+    this.Schemas = require(path.resolve(process.cwd(), this.opts.schemaFile))
     return Promise.all(
 
       Object.keys(this.Schemas).map( key => {

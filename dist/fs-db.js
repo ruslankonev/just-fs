@@ -27,6 +27,7 @@ var EventEmitter = require('events');
 var uuid = require('uuid');
 var _ = require('lodash');
 var fs = require('fs');
+var path = require('path');
 
 /*************************************************
  * Main DB class
@@ -43,11 +44,12 @@ var DB = function (_EventEmitter) {
 
     _this.DB = {};
     _this.pagedDB = {};
-    _this.Schemas = require(App.schemaUrl);
     _this.opts = {
-      path: App.dbPath,
-      perPage: 12
+      path: path.resolve(process.cwd(), 'stores'),
+      perPage: 12,
+      schemaFile: '_schemas.js'
     };
+    _this.Schemas = {};
     _this.collection = [];
     _this.on('error', function (err) {
       return console.error(err);
@@ -61,7 +63,7 @@ var DB = function (_EventEmitter) {
       var _this2 = this;
 
       this.opts = Object.assign(this.opts, opts);
-
+      this.Schemas = require(path.resolve(process.cwd(), this.opts.schemaFile));
       return Promise.all(Object.keys(this.Schemas).map(function (key) {
 
         return new Promise(function (resolve, reject) {
